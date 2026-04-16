@@ -179,13 +179,18 @@ JARVIS is a Progressive Web App. For distribution:
 ### Web (today)
 Any browser on any device can install via the browser's "Add to Home Screen" / "Install App" prompt.
 
-### Electron (desktop)
+### Windows desktop — Tauri 2 with system tray (Sprint 47)
 ```bash
-pnpm add electron electron-builder --save-dev
-# See docs/ELECTRON.md for packaging guide
+pnpm add -D @tauri-apps/cli
+pnpm tauri init
+# See docs/client-strategy.md for tray layout + auto-start details
 ```
 
-### Capacitor (iOS/Android app stores)
+Tauri 2 gives us a ~10 MB signed MSI with a persistent system-tray icon
+(Open JARVIS · Cameras · Spaces · LEO · discovered LAN nodes · quit).
+WebView2 ships on all Win10+ boxes, so LiveKit WebRTC works out of the box.
+
+### Capacitor (iOS/Android app stores) — Sprint 48–49
 ```bash
 pnpm add @capacitor/core @capacitor/cli @capacitor/ios @capacitor/android
 npx cap init
@@ -194,7 +199,12 @@ npx cap add android
 # Build and submit to App Store / Play Store
 ```
 
-Capacitor wraps the web app in a native shell — same codebase, native install experience.
+Capacitor wraps the web app in a native shell — same codebase, native
+install experience. Storage already abstracted via `src/lib/storage.ts`
+so Capacitor Preferences is used on device, `localStorage` in the PWA.
+
+See [`docs/client-strategy.md`](docs/client-strategy.md) for the full
+Windows tray + Android + iOS rollout plan.
 
 ---
 
@@ -242,11 +252,13 @@ See `src/app/book/` (Sprint 46) for implementation.
 
 | Sprint | Feature |
 |--------|---------|
-| ✅ Current | Left sidebar nav, IP cameras, LiveKit Spaces, content pages, PWA |
-| 46 | Recording engine (ffmpeg DVR, motion clips), WDEG book viewer |
-| 47 | LAN discovery UI, OAuth integration (Google, Twitter/X), Twitter binding for CCM + Angel OS |
-| 48 | Electron packaging, iOS/Android via Capacitor |
-| 49 | Multi-node federation (JARVIS nodes discover each other on LAN) |
+| ✅ Current | Left sidebar nav, IP cameras, LiveKit Spaces, content pages, PWA, book viewer, storage abstraction |
+| 46 | Recording engine (ffmpeg DVR, motion clips), WDEG book content import, LEO system-maintenance tools |
+| 47 | **Windows tray app (Tauri 2)** — signed MSI, auto-start, discovered-nodes menu · LAN discovery UI · OAuth (Google + Twitter/X) · mDNS `_jarvis._tcp.local` |
+| 48 | **Android client (Capacitor 6)** — Play Store closed beta, mDNS discovery, FCM push for camera motion |
+| 49 | **iOS client (Capacitor 6)** — TestFlight, APNs, Sign in with Apple, privacy manifest |
+| 50 | Public release: Windows MSI on spaces-angels.com/download · Play Store · App Store submit · Tauri auto-updater |
+| 51+ | Multi-node federation (JARVIS nodes discover each other on LAN + sync state) |
 
 ---
 
