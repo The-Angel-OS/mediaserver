@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
+import { appStorage } from '@/lib/storage'
 import {
   LayoutDashboard, Radio, FileText, ShoppingBag, Image, Package,
   Hash, Inbox, Sparkles, Youtube, Settings, Key, Activity,
@@ -80,6 +81,13 @@ const NAV: NavSection[] = [
       { href: '/infra/vmware', label: 'VMware', icon: Server },
       { href: '/infra/kubernetes', label: 'Kubernetes', icon: Box },
       { href: '/infra/docker', label: 'Docker', icon: Box },
+    ],
+  },
+  {
+    title: 'Library',
+    accent: '#99ccff',
+    items: [
+      { href: '/book', label: 'Books', icon: BookOpen },
     ],
   },
   {
@@ -184,7 +192,7 @@ export default function Sidebar() {
       .then(res => {
         const docs = res?.data?.docs || []
         setTenants(docs)
-        const saved = localStorage.getItem('jarvis-tenant')
+        const saved = appStorage.getTenant()
         const found = saved ? docs.find((t: Tenant) => t.slug === saved) : null
         setTenant(found || docs[0] || null)
       })
@@ -204,7 +212,7 @@ export default function Sidebar() {
 
   const pickTenant = (t: Tenant) => {
     setTenant(t)
-    localStorage.setItem('jarvis-tenant', t.slug)
+    appStorage.setTenant(t.slug)
     setShowPicker(false)
   }
 

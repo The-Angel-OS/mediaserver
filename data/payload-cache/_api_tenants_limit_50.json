@@ -1,0 +1,501 @@
+{
+  "data": {
+    "docs": [
+      {
+        "id": 10,
+        "type": "tenant",
+        "name": "Stalcup for Congress",
+        "slug": "tomstalcup",
+        "domain": "tomstalcup.angelos.local",
+        "domains": [],
+        "status": "active",
+        "branding": {
+          "logo": null,
+          "siteName": "Stalcup for Congress",
+          "tagline": "Science Over Politics",
+          "primaryColor": "#233359",
+          "secondaryColor": "#E3171D",
+          "accentColor": "#E3171D",
+          "backgroundColor": "#FFFFFF",
+          "foregroundColor": "#233359",
+          "borderColor": "#D1D5DB",
+          "headingFont": "montserrat",
+          "bodyFont": "open-sans"
+        },
+        "businessType": "nonprofit",
+        "storefront": {
+          "description": "Tom Stalcup, PhD — physicist, entrepreneur, and candidate for Congress in Massachusetts' 4th district. Taking on powerful interests like Big Pharma to lower costs for working families.",
+          "coverImage": null,
+          "contactEmail": null,
+          "contactPhone": null,
+          "socialLinks": [],
+          "businessHours": []
+        },
+        "commerce": {
+          "currency": "usd",
+          "taxRate": null,
+          "shippingEnabled": false,
+          "bookingsEnabled": false,
+          "eventsEnabled": false,
+          "digitalProductsEnabled": false,
+          "isTaxExempt": false,
+          "taxExemptId": null
+        },
+        "stripeConnect": {
+          "stripeAccountId": null,
+          "stripeOnboardingComplete": false,
+          "stripePayoutsEnabled": false,
+          "stripeChargesEnabled": false,
+          "connectedAt": null
+        },
+        "aiConfig": {
+          "anthropicApiKey": null,
+          "openrouterApiKey": null,
+          "openaiApiKey": null,
+          "googleAiApiKey": null,
+          "cloudflareAccountId": null,
+          "cloudflareAiToken": null,
+          "preferredImageProvider": "auto"
+        },
+        "vapi": {
+          "enabled": false,
+          "phoneNumber": null,
+          "assistantId": null,
+          "voiceId": null,
+          "greeting": null
+        },
+        "agentWallet": {
+          "enabled": false,
+          "monthlyBudgetCents": 0,
+          "spentThisMonthCents": 0,
+          "lifetimeSpentCents": 0,
+          "lifetimeEarnedCents": 0,
+          "lastResetAt": null,
+          "spendingRules": null
+        },
+        "setup": {
+          "wizardComplete": false,
+          "wizardProgress": null,
+          "constitutionSignedAt": null,
+          "constitutionSignature": null,
+          "federationId": null,
+          "isFlagship": false,
+          "commissionedAt": null
+        },
+        "bootstrapFees": {
+          "tier": "free",
+          "freeTransactionsUsed": 0,
+          "freeTransactionLimit": 50,
+          "freeGmvCents": 0,
+          "freeGmvLimitCents": 500000,
+          "bootstrapFeePercent": 5,
+          "totalFeesCollectedCents": 0,
+          "refundPromised": true,
+          "refundStatus": "accruing",
+          "bootstrapStartedAt": null,
+          "bootstrapEndedAt": null
+        },
+        "updatedAt": "2026-04-10T22:28:32.808Z",
+        "createdAt": "2026-04-10T22:19:30.792Z"
+      },
+      {
+        "id": 8,
+        "type": "tenant",
+        "name": "HelpDNA — Ernesto Behrens Innocence Project",
+        "slug": "helpdna",
+        "domain": "helpdna.angelos.local",
+        "domains": [],
+        "status": "active",
+        "branding": {
+          "logo": null,
+          "siteName": "HelpDNA",
+          "tagline": "Science Does Not Lie…Nor Is A Lie Science!",
+          "primaryColor": "#453C73",
+          "secondaryColor": "#6D5FA7",
+          "accentColor": "#E2564D",
+          "backgroundColor": "#F8F7FC",
+          "foregroundColor": "#1C1917",
+          "borderColor": "#D4D0E8",
+          "headingFont": "playfair-display",
+          "bodyFont": "lato"
+        },
+        "businessType": null,
+        "storefront": {
+          "description": null,
+          "coverImage": null,
+          "contactEmail": null,
+          "contactPhone": null,
+          "socialLinks": [],
+          "businessHours": []
+        },
+        "commerce": {
+          "currency": "usd",
+          "taxRate": null,
+          "shippingEnabled": false,
+          "bookingsEnabled": false,
+          "eventsEnabled": false,
+          "digitalProductsEnabled": false,
+          "isTaxExempt": false,
+          "taxExemptId": null
+        },
+        "stripeConnect": {
+          "stripeAccountId": null,
+          "stripeOnboardingComplete": false,
+          "stripePayoutsEnabled": false,
+          "stripeChargesEnabled": false,
+          "connectedAt": null
+        },
+        "aiConfig": {
+          "anthropicApiKey": null,
+          "openrouterApiKey": null,
+          "openaiApiKey": null,
+          "googleAiApiKey": null,
+          "cloudflareAccountId": null,
+          "cloudflareAiToken": null,
+          "preferredImageProvider": "auto"
+        },
+        "vapi": {
+          "enabled": false,
+          "phoneNumber": null,
+          "assistantId": null,
+          "voiceId": null,
+          "greeting": null
+        },
+        "agentWallet": {
+          "enabled": false,
+          "monthlyBudgetCents": 0,
+          "spentThisMonthCents": 0,
+          "lifetimeSpentCents": 0,
+          "lifetimeEarnedCents": 0,
+          "lastResetAt": null,
+          "spendingRules": null
+        },
+        "setup": {
+          "wizardComplete": false,
+          "wizardProgress": null,
+          "constitutionSignedAt": null,
+          "constitutionSignature": null,
+          "federationId": null,
+          "isFlagship": false,
+          "commissionedAt": null
+        },
+        "bootstrapFees": {
+          "tier": "free",
+          "freeTransactionsUsed": 0,
+          "freeTransactionLimit": 50,
+          "freeGmvCents": 0,
+          "freeGmvLimitCents": 500000,
+          "bootstrapFeePercent": 5,
+          "totalFeesCollectedCents": 0,
+          "refundPromised": true,
+          "refundStatus": "accruing",
+          "bootstrapStartedAt": null,
+          "bootstrapEndedAt": null
+        },
+        "updatedAt": "2026-02-27T03:06:12.745Z",
+        "createdAt": "2026-02-27T03:06:12.745Z"
+      },
+      {
+        "id": 7,
+        "type": "tenant",
+        "name": "Hays Cactus Farm",
+        "slug": "hays-cactus",
+        "domain": "hays-cactus.angelos.local",
+        "domains": [],
+        "status": "active",
+        "branding": {
+          "logo": null,
+          "siteName": "Hays Cactus Farm",
+          "tagline": "Desert Beauty, Delivered",
+          "primaryColor": "#059669",
+          "secondaryColor": "#34D399",
+          "accentColor": "#D97706",
+          "backgroundColor": "#F0FDF4",
+          "foregroundColor": "#14532D",
+          "borderColor": "#BBF7D0",
+          "headingFont": "montserrat",
+          "bodyFont": "open-sans"
+        },
+        "businessType": null,
+        "storefront": {
+          "description": null,
+          "coverImage": null,
+          "contactEmail": null,
+          "contactPhone": null,
+          "socialLinks": [],
+          "businessHours": []
+        },
+        "commerce": {
+          "currency": "usd",
+          "taxRate": null,
+          "shippingEnabled": false,
+          "bookingsEnabled": false,
+          "eventsEnabled": false,
+          "digitalProductsEnabled": false,
+          "isTaxExempt": false,
+          "taxExemptId": null
+        },
+        "stripeConnect": {
+          "stripeAccountId": null,
+          "stripeOnboardingComplete": false,
+          "stripePayoutsEnabled": false,
+          "stripeChargesEnabled": false,
+          "connectedAt": null
+        },
+        "aiConfig": {
+          "anthropicApiKey": null,
+          "openrouterApiKey": null,
+          "openaiApiKey": null,
+          "googleAiApiKey": null,
+          "cloudflareAccountId": null,
+          "cloudflareAiToken": null,
+          "preferredImageProvider": "auto"
+        },
+        "vapi": {
+          "enabled": false,
+          "phoneNumber": null,
+          "assistantId": null,
+          "voiceId": null,
+          "greeting": null
+        },
+        "agentWallet": {
+          "enabled": false,
+          "monthlyBudgetCents": 0,
+          "spentThisMonthCents": 0,
+          "lifetimeSpentCents": 0,
+          "lifetimeEarnedCents": 0,
+          "lastResetAt": null,
+          "spendingRules": null
+        },
+        "setup": {
+          "wizardComplete": false,
+          "wizardProgress": null,
+          "constitutionSignedAt": null,
+          "constitutionSignature": null,
+          "federationId": null,
+          "isFlagship": false,
+          "commissionedAt": null
+        },
+        "bootstrapFees": {
+          "tier": "free",
+          "freeTransactionsUsed": 0,
+          "freeTransactionLimit": 50,
+          "freeGmvCents": 0,
+          "freeGmvLimitCents": 500000,
+          "bootstrapFeePercent": 5,
+          "totalFeesCollectedCents": 0,
+          "refundPromised": true,
+          "refundStatus": "accruing",
+          "bootstrapStartedAt": null,
+          "bootstrapEndedAt": null
+        },
+        "updatedAt": "2026-02-27T03:05:53.139Z",
+        "createdAt": "2026-02-27T03:05:53.138Z"
+      },
+      {
+        "id": 5,
+        "type": "tenant",
+        "name": "Clearwater Cruisin Ministries",
+        "slug": "clearwater-cruisin",
+        "domain": "clearwater-cruisin.angelos.local",
+        "domains": [],
+        "status": "active",
+        "branding": {
+          "logo": null,
+          "siteName": "Clearwater Cruisin' Ministries",
+          "tagline": "Soul Questing in the Ready Player Everyone Universe",
+          "primaryColor": "#C4973B",
+          "secondaryColor": "#1A7A6D",
+          "accentColor": "#FF6B9D",
+          "backgroundColor": "#FFF8F0",
+          "foregroundColor": "#1C1917",
+          "borderColor": "#E8D5B7",
+          "headingFont": "playfair-display",
+          "bodyFont": "lato"
+        },
+        "businessType": null,
+        "storefront": {
+          "description": null,
+          "coverImage": null,
+          "contactEmail": null,
+          "contactPhone": null,
+          "socialLinks": [],
+          "businessHours": []
+        },
+        "commerce": {
+          "currency": "usd",
+          "taxRate": null,
+          "shippingEnabled": false,
+          "bookingsEnabled": false,
+          "eventsEnabled": false,
+          "digitalProductsEnabled": false,
+          "isTaxExempt": false,
+          "taxExemptId": null
+        },
+        "stripeConnect": {
+          "stripeAccountId": "acct_1TDH9HDD3wkiJ0D4",
+          "stripeOnboardingComplete": true,
+          "stripePayoutsEnabled": true,
+          "stripeChargesEnabled": true,
+          "connectedAt": null
+        },
+        "aiConfig": {
+          "anthropicApiKey": null,
+          "openrouterApiKey": null,
+          "openaiApiKey": null,
+          "googleAiApiKey": null,
+          "cloudflareAccountId": null,
+          "cloudflareAiToken": null,
+          "preferredImageProvider": "auto"
+        },
+        "vapi": {
+          "enabled": false,
+          "phoneNumber": null,
+          "assistantId": null,
+          "voiceId": null,
+          "greeting": null
+        },
+        "agentWallet": {
+          "enabled": false,
+          "monthlyBudgetCents": 0,
+          "spentThisMonthCents": 0,
+          "lifetimeSpentCents": 0,
+          "lifetimeEarnedCents": 0,
+          "lastResetAt": null,
+          "spendingRules": null
+        },
+        "setup": {
+          "wizardComplete": false,
+          "wizardProgress": null,
+          "constitutionSignedAt": null,
+          "constitutionSignature": null,
+          "federationId": null,
+          "isFlagship": false,
+          "commissionedAt": null
+        },
+        "bootstrapFees": {
+          "tier": "free",
+          "freeTransactionsUsed": 0,
+          "freeTransactionLimit": 50,
+          "freeGmvCents": 0,
+          "freeGmvLimitCents": 500000,
+          "bootstrapFeePercent": 5,
+          "totalFeesCollectedCents": 0,
+          "refundPromised": true,
+          "refundStatus": "accruing",
+          "bootstrapStartedAt": null,
+          "bootstrapEndedAt": null
+        },
+        "updatedAt": "2026-03-21T04:32:07.729Z",
+        "createdAt": "2026-02-27T03:05:22.867Z"
+      },
+      {
+        "id": 1,
+        "type": "platform",
+        "name": "Angel OS Platform",
+        "slug": "platform",
+        "domain": "angel-os.org",
+        "domains": [],
+        "status": "active",
+        "branding": {
+          "logo": null,
+          "siteName": "Angel OS Platform",
+          "tagline": "Everyone Gets An Angel",
+          "primaryColor": "#10B981",
+          "secondaryColor": "#0078D4",
+          "accentColor": "#FF6B35",
+          "backgroundColor": "#FFFFFF",
+          "foregroundColor": "#1A1A1A",
+          "borderColor": "#E5E7EB",
+          "headingFont": "inter",
+          "bodyFont": "inter"
+        },
+        "businessType": null,
+        "storefront": {
+          "description": null,
+          "coverImage": null,
+          "contactEmail": null,
+          "contactPhone": null,
+          "socialLinks": [],
+          "businessHours": []
+        },
+        "commerce": {
+          "currency": "usd",
+          "taxRate": null,
+          "shippingEnabled": false,
+          "bookingsEnabled": false,
+          "eventsEnabled": false,
+          "digitalProductsEnabled": false,
+          "isTaxExempt": false,
+          "taxExemptId": null
+        },
+        "stripeConnect": {
+          "stripeAccountId": "acct_1T76R8DfVCRZoYmT",
+          "stripeOnboardingComplete": false,
+          "stripePayoutsEnabled": false,
+          "stripeChargesEnabled": false,
+          "connectedAt": null
+        },
+        "aiConfig": {
+          "anthropicApiKey": null,
+          "openrouterApiKey": null,
+          "openaiApiKey": null,
+          "googleAiApiKey": null,
+          "cloudflareAccountId": null,
+          "cloudflareAiToken": null,
+          "preferredImageProvider": "auto"
+        },
+        "vapi": {
+          "enabled": false,
+          "phoneNumber": null,
+          "assistantId": null,
+          "voiceId": null,
+          "greeting": null
+        },
+        "agentWallet": {
+          "enabled": false,
+          "monthlyBudgetCents": 0,
+          "spentThisMonthCents": 0,
+          "lifetimeSpentCents": 0,
+          "lifetimeEarnedCents": 0,
+          "lastResetAt": null,
+          "spendingRules": null
+        },
+        "setup": {
+          "wizardComplete": false,
+          "wizardProgress": null,
+          "constitutionSignedAt": null,
+          "constitutionSignature": null,
+          "federationId": null,
+          "isFlagship": false,
+          "commissionedAt": null
+        },
+        "bootstrapFees": {
+          "tier": "free",
+          "freeTransactionsUsed": 0,
+          "freeTransactionLimit": 50,
+          "freeGmvCents": 0,
+          "freeGmvLimitCents": 500000,
+          "bootstrapFeePercent": 5,
+          "totalFeesCollectedCents": 0,
+          "refundPromised": true,
+          "refundStatus": "accruing",
+          "bootstrapStartedAt": null,
+          "bootstrapEndedAt": null
+        },
+        "updatedAt": "2026-03-04T03:50:36.966Z",
+        "createdAt": "2026-02-27T03:04:23.266Z"
+      }
+    ],
+    "hasNextPage": false,
+    "hasPrevPage": false,
+    "limit": 50,
+    "nextPage": null,
+    "page": 1,
+    "pagingCounter": 1,
+    "prevPage": null,
+    "totalDocs": 5,
+    "totalPages": 1
+  },
+  "cachedAt": "2026-04-16T03:52:39.987Z"
+}
