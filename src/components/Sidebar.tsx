@@ -1,4 +1,10 @@
 'use client'
+/**
+ * Sidebar — left navigation panel.
+ * Supports collapsed (icon-only, w-14) and expanded (w-56) modes.
+ * Section headers act as collapse toggles.
+ * Live badges on Inbox and Cameras via /api/system.
+ */
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -6,172 +12,189 @@ import { cn } from '@/lib/utils'
 import { appStorage } from '@/lib/storage'
 import {
   LayoutDashboard, Radio, FileText, ShoppingBag, Image, Package,
-  Hash, Inbox, Sparkles, Youtube, Settings, Key, Activity,
-  Camera, Film, Server, Box, Monitor, ChevronDown, ChevronRight,
-  Wifi, WifiOff, BookOpen, CalendarDays, MapPin,
+  Hash, Inbox, Sparkles, Youtube, Key, Activity, Camera, Film,
+  Server, Box, Monitor, ChevronDown, ChevronRight, Wifi, WifiOff,
+  BookOpen, CalendarDays, MapPin, PanelLeftClose, PanelLeft,
 } from 'lucide-react'
 
 interface Tenant { id: string; name: string; slug: string; domain?: string }
 
-type NavItem = {
-  href: string
-  label: string
-  icon: React.ElementType
-  badge?: string | number
-  external?: boolean
-}
-
-type NavSection = {
-  title: string
-  items: NavItem[]
-  accent?: string
-}
+type NavItem = { href: string; label: string; icon: React.ElementType; badgeKey?: string; external?: boolean }
+type NavSection = { title: string; items: NavItem[]; accent: string }
 
 const NAV: NavSection[] = [
   {
-    title: 'Bridge',
-    accent: '#f5a623',
+    title: 'Bridge', accent: '#f5a623',
     items: [
-      { href: '/', label: 'Dashboard', icon: LayoutDashboard },
-      { href: '/cic', label: 'CIC', icon: Monitor },
+      { href: '/',    label: 'Dashboard',   icon: LayoutDashboard },
+      { href: '/cic', label: 'CIC',         icon: Monitor },
       { href: '/log', label: 'Activity Log', icon: Activity },
     ],
   },
   {
-    title: 'Content',
-    accent: '#99ccff',
+    title: 'Content', accent: '#99ccff',
     items: [
-      { href: '/content/pages', label: 'Pages', icon: FileText },
-      { href: '/content/posts', label: 'Posts', icon: BookOpen },
+      { href: '/content/pages',    label: 'Pages',    icon: FileText },
+      { href: '/content/posts',    label: 'Posts',    icon: BookOpen },
       { href: '/content/products', label: 'Products', icon: ShoppingBag },
-      { href: '/content/events', label: 'Events', icon: CalendarDays },
-      { href: '/media', label: 'Media', icon: Image },
+      { href: '/content/events',   label: 'Events',   icon: CalendarDays },
+      { href: '/media',            label: 'Media',    icon: Image },
     ],
   },
   {
-    title: 'Commerce',
-    accent: '#22cc88',
+    title: 'Commerce', accent: '#22cc88',
     items: [
-      { href: '/content/orders', label: 'Orders', icon: Package },
-      { href: '/content/bookings', label: 'Bookings', icon: CalendarDays },
-      { href: '/content/spaces-mgr', label: 'Spaces Mgr', icon: MapPin },
+      { href: '/content/orders',      label: 'Orders',    icon: Package },
+      { href: '/content/bookings',    label: 'Bookings',  icon: CalendarDays },
+      { href: '/content/spaces-mgr',  label: 'Spaces Mgr', icon: MapPin },
     ],
   },
   {
-    title: 'Communication',
-    accent: '#cc99cc',
+    title: 'Communication', accent: '#cc99cc',
     items: [
       { href: '/spaces', label: 'Spaces', icon: Hash },
-      { href: '/inbox', label: 'Inbox', icon: Inbox },
-      { href: '/leo', label: 'LEO — AI', icon: Sparkles },
+      { href: '/inbox',  label: 'Inbox',  icon: Inbox,    badgeKey: 'inbox' },
+      { href: '/leo',    label: 'LEO',    icon: Sparkles },
     ],
   },
   {
-    title: 'Surveillance',
-    accent: '#cc4444',
+    title: 'Surveillance', accent: '#cc4444',
     items: [
-      { href: '/cameras', label: 'Cameras', icon: Camera },
+      { href: '/cameras',   label: 'Cameras',   icon: Camera, badgeKey: 'cameras' },
       { href: '/recording', label: 'Recording', icon: Film },
     ],
   },
   {
-    title: 'Infrastructure',
-    accent: '#9977aa',
+    title: 'Infrastructure', accent: '#9977aa',
     items: [
-      { href: '/infra/vmware', label: 'VMware', icon: Server },
-      { href: '/infra/kubernetes', label: 'Kubernetes', icon: Box },
-      { href: '/infra/docker', label: 'Docker', icon: Box },
+      { href: '/infra/vmware',      label: 'VMware',     icon: Server },
+      { href: '/infra/kubernetes',  label: 'Kubernetes', icon: Box },
+      { href: '/infra/docker',      label: 'Docker',     icon: Box },
     ],
   },
   {
-    title: 'Library',
-    accent: '#99ccff',
+    title: 'Library', accent: '#99ccff',
     items: [
-      { href: '/book', label: 'Books', icon: BookOpen },
+      { href: '/book',  label: 'Books',       icon: BookOpen },
+      { href: '/learn', label: 'System Guide', icon: Sparkles },
     ],
   },
   {
-    title: 'System',
-    accent: '#7788aa',
+    title: 'System', accent: '#7788aa',
     items: [
-      { href: '/youtube', label: 'YouTube', icon: Youtube },
-      { href: '/keys', label: 'Keys & Config', icon: Key },
+      { href: '/youtube', label: 'YouTube',       icon: Youtube },
+      { href: '/keys',    label: 'Keys & Config', icon: Key },
     ],
   },
 ]
 
-function NavLink({ item, accent }: { item: NavItem; accent?: string }) {
+// ─── Nav Link ───────────────────────────────────────────────────────────────
+function NavLink({
+  item, accent, collapsed, badge,
+}: {
+  item: NavItem; accent: string; collapsed: boolean; badge?: number
+}) {
   const pathname = usePathname()
   const active = item.href === '/'
     ? pathname === '/'
     : pathname.startsWith(item.href)
 
-  if (item.external) {
-    return (
-      <a
-        href={item.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-2.5 px-3 py-1.5 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-accent/40 transition-colors"
-      >
-        <item.icon className="size-3.5 shrink-0" />
-        <span className="truncate">{item.label}</span>
-      </a>
-    )
-  }
-
-  return (
-    <Link
-      href={item.href}
-      className={cn(
-        'flex items-center gap-2.5 px-3 py-1.5 rounded-md text-xs transition-colors relative',
-        active
-          ? 'bg-lcars-amber/10 text-foreground font-medium'
-          : 'text-muted-foreground hover:text-foreground hover:bg-accent/40',
-      )}
-    >
-      {active && (
+  const inner = (
+    <>
+      {active && !collapsed && (
         <span
           className="absolute left-0 top-1 bottom-1 w-0.5 rounded-r-full"
-          style={{ background: accent || '#f5a623' }}
+          style={{ background: accent }}
         />
       )}
-      <item.icon className={cn('size-3.5 shrink-0', active && 'text-lcars-amber')} />
-      <span className="truncate">{item.label}</span>
-      {item.badge !== undefined && (
-        <span className="ml-auto text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-lcars-amber/20 text-lcars-amber">
-          {item.badge}
+      <item.icon
+        className={cn('shrink-0', collapsed ? 'size-5' : 'size-3.5', active && 'drop-shadow-sm')}
+        style={active ? { color: accent } : {}}
+      />
+      {!collapsed && <span className="truncate flex-1">{item.label}</span>}
+      {!collapsed && badge !== undefined && badge > 0 && (
+        <span
+          className="ml-auto text-[9px] font-mono px-1.5 py-0.5 rounded-full"
+          style={{ background: `${accent}25`, color: accent }}
+        >
+          {badge > 99 ? '99+' : badge}
         </span>
       )}
+      {/* Collapsed badge dot */}
+      {collapsed && badge !== undefined && badge > 0 && (
+        <span
+          className="absolute top-0.5 right-0.5 size-2 rounded-full border border-background"
+          style={{ background: accent }}
+        />
+      )}
+    </>
+  )
+
+  const cls = cn(
+    'relative flex items-center rounded-md text-xs transition-colors',
+    collapsed ? 'justify-center p-2' : 'gap-2.5 px-3 py-1.5',
+    active
+      ? 'bg-white/8 text-foreground font-medium'
+      : 'text-muted-foreground hover:text-foreground hover:bg-white/5',
+  )
+
+  return (
+    <Link href={item.href} className={cls} title={collapsed ? item.label : undefined}>
+      {inner}
     </Link>
   )
 }
 
-function Section({ section, collapsed, onToggle }: {
+// ─── Section ────────────────────────────────────────────────────────────────
+function Section({
+  section, collapsed: sidebarCollapsed, sectionCollapsed, onToggle, badges,
+}: {
   section: NavSection
   collapsed: boolean
+  sectionCollapsed: boolean
   onToggle: () => void
+  badges: Record<string, number>
 }) {
+  if (sidebarCollapsed) {
+    // Icon-only mode: render all items as stacked icons
+    return (
+      <div className="space-y-0.5 pt-1 border-t border-border/30 first:border-0 first:pt-0">
+        {section.items.map(item => (
+          <NavLink
+            key={item.href}
+            item={item}
+            accent={section.accent}
+            collapsed
+            badge={item.badgeKey ? badges[item.badgeKey] : undefined}
+          />
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-0.5">
       <button
         onClick={onToggle}
-        className="w-full flex items-center gap-2 px-3 py-1 text-[10px] font-mono uppercase tracking-widest transition-colors"
-        style={{ color: section.accent || '#7788aa' }}
+        className="w-full flex items-center gap-2 px-3 py-1 text-[9px] font-mono uppercase tracking-widest hover:opacity-90 transition-opacity"
+        style={{ color: section.accent }}
       >
-        <span
-          className="inline-block size-1.5 rounded-full shrink-0"
-          style={{ background: section.accent || '#7788aa' }}
-        />
+        <span className="inline-block size-1.5 rounded-full shrink-0" style={{ background: section.accent }} />
         <span className="flex-1 text-left">{section.title}</span>
-        {collapsed
-          ? <ChevronRight className="size-3 opacity-60" />
-          : <ChevronDown className="size-3 opacity-60" />}
+        {sectionCollapsed
+          ? <ChevronRight className="size-3 opacity-50" />
+          : <ChevronDown className="size-3 opacity-50" />}
       </button>
-      {!collapsed && (
+      {!sectionCollapsed && (
         <div className="space-y-0.5">
           {section.items.map(item => (
-            <NavLink key={item.href} item={item} accent={section.accent} />
+            <NavLink
+              key={item.href}
+              item={item}
+              accent={section.accent}
+              collapsed={false}
+              badge={item.badgeKey ? badges[item.badgeKey] : undefined}
+            />
           ))}
         </div>
       )}
@@ -179,13 +202,22 @@ function Section({ section, collapsed, onToggle }: {
   )
 }
 
-export default function Sidebar() {
+// ─── Sidebar ────────────────────────────────────────────────────────────────
+export default function Sidebar({
+  collapsed,
+  onToggle,
+}: {
+  collapsed: boolean
+  onToggle: () => void
+}) {
   const [tenants, setTenants] = useState<Tenant[]>([])
   const [tenant, setTenant] = useState<Tenant | null>(null)
   const [showPicker, setShowPicker] = useState(false)
   const [online, setOnline] = useState<boolean | null>(null)
-  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({})
+  const [sectionCollapsed, setSectionCollapsed] = useState<Record<string, boolean>>({})
+  const [badges, setBadges] = useState<Record<string, number>>({})
 
+  // Tenant list
   useEffect(() => {
     fetch('/api/payload/tenants?limit=50')
       .then(r => r.json())
@@ -199,6 +231,7 @@ export default function Sidebar() {
       .catch(() => {})
   }, [])
 
+  // Connection status
   useEffect(() => {
     const check = () =>
       fetch('/api/angels/status')
@@ -206,7 +239,22 @@ export default function Sidebar() {
         .then(d => setOnline(!!d.online))
         .catch(() => setOnline(false))
     check()
-    const iv = setInterval(check, 30000)
+    const iv = setInterval(check, 30_000)
+    return () => clearInterval(iv)
+  }, [])
+
+  // Live badges
+  useEffect(() => {
+    const load = () =>
+      fetch('/api/system')
+        .then(r => r.json())
+        .then(d => setBadges({
+          inbox: (d.incidents?.open || 0) + (d.inbox?.new || 0),
+          cameras: 0, // can extend: fetch camera count
+        }))
+        .catch(() => {})
+    load()
+    const iv = setInterval(load, 15_000)
     return () => clearInterval(iv)
   }, [])
 
@@ -217,110 +265,133 @@ export default function Sidebar() {
   }
 
   const toggleSection = (title: string) =>
-    setCollapsed(prev => ({ ...prev, [title]: !prev[title] }))
+    setSectionCollapsed(prev => ({ ...prev, [title]: !prev[title] }))
 
   return (
-    <aside className="fixed left-0 top-0 bottom-0 w-56 flex flex-col border-r border-border/60 bg-background/95 backdrop-blur-xl z-30 overflow-hidden">
+    <aside
+      className="fixed left-0 top-0 bottom-0 flex flex-col border-r border-border/60 bg-background/97 backdrop-blur-xl z-30 overflow-hidden transition-[width] duration-200"
+      style={{ width: collapsed ? '3.5rem' : '14rem' }}
+    >
       {/* Top LCARS stripe */}
-      <div className="h-0.5 bg-gradient-to-r from-lcars-amber via-lcars-blue to-lcars-purple opacity-70 shrink-0" />
+      <div className="h-0.5 bg-gradient-to-r from-lcars-amber via-lcars-blue to-lcars-purple opacity-60 shrink-0" />
 
-      {/* Logo */}
-      <div className="flex items-center gap-2.5 px-4 py-3 border-b border-border/60 shrink-0">
+      {/* Logo row */}
+      <div className={cn(
+        'flex items-center border-b border-border/60 shrink-0',
+        collapsed ? 'justify-center py-3 px-2' : 'gap-2.5 px-4 py-3',
+      )}>
         <div className="size-7 rounded-md bg-gradient-to-br from-lcars-amber to-lcars-orange flex items-center justify-center shadow-sm shadow-lcars-amber/30 shrink-0">
           <span className="text-black font-bold text-sm">J</span>
         </div>
-        <div className="flex-1 min-w-0">
-          <div className="text-xs font-mono uppercase tracking-widest font-semibold text-foreground">JARVIS</div>
-          <div className="text-[9px] font-mono text-muted-foreground truncate">Angel OS Node</div>
+        {!collapsed && (
+          <div className="flex-1 min-w-0">
+            <div className="text-xs font-mono uppercase tracking-widest font-semibold">JARVIS</div>
+            <div className="text-[9px] font-mono text-muted-foreground">Angel OS Node</div>
+          </div>
+        )}
+        {!collapsed && (
+          <span
+            className="size-2 rounded-full"
+            title={online ? 'Online' : 'Offline'}
+            style={{
+              background: online === null ? '#7788aa' : online ? '#22cc88' : '#f5a623',
+              boxShadow: online ? '0 0 6px #22cc8860' : 'none',
+              animation: online ? 'liveness-dot-pulse 1.2s ease-in-out infinite' : 'none',
+            }}
+          />
+        )}
+      </div>
+
+      {/* Tenant picker — hidden when collapsed */}
+      {!collapsed && (
+        <div className="px-3 py-2 border-b border-border/60 shrink-0 relative">
+          <button
+            onClick={() => setShowPicker(!showPicker)}
+            className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md border border-border/60 bg-card/40 hover:border-lcars-amber/40 transition text-left"
+          >
+            <Radio className="size-3 text-lcars-amber shrink-0" />
+            <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground truncate flex-1">
+              {tenant?.name || 'Select Enterprise'}
+            </span>
+            <ChevronDown className="size-3 text-muted-foreground shrink-0" />
+          </button>
+          {showPicker && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setShowPicker(false)} />
+              <div className="absolute left-3 right-3 top-full mt-1 z-50 rounded-lg border border-border bg-card/97 backdrop-blur-xl shadow-xl overflow-hidden">
+                <div className="px-3 py-1.5 border-b border-border/60 text-[9px] font-mono uppercase tracking-widest text-lcars-amber">
+                  Enterprise Registry
+                </div>
+                <div className="max-h-56 overflow-y-auto">
+                  {tenants.length === 0 ? (
+                    <div className="px-3 py-3 text-[10px] text-muted-foreground text-center">
+                      No tenants. Configure Angels API in Keys.
+                    </div>
+                  ) : (
+                    tenants.map(t => (
+                      <button
+                        key={t.id}
+                        onClick={() => pickTenant(t)}
+                        className={cn(
+                          'w-full px-3 py-1.5 text-left text-xs hover:bg-accent/50 transition',
+                          tenant?.id === t.id && 'bg-lcars-amber/10 text-lcars-amber',
+                        )}
+                      >
+                        <div className="font-medium truncate">{t.name}</div>
+                        {t.domain && <div className="text-[9px] text-muted-foreground font-mono">{t.domain}</div>}
+                      </button>
+                    ))
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </div>
-        {/* Status dot */}
-        {online === null ? (
-          <div className="size-2 rounded-full bg-muted-foreground animate-pulse" />
-        ) : online ? (
-          <div className="size-2 rounded-full bg-lcars-green liveness-dot" title="Online" />
-        ) : (
-          <div className="size-2 rounded-full bg-lcars-amber" title="Offline" />
-        )}
-      </div>
+      )}
 
-      {/* Tenant picker */}
-      <div className="px-3 py-2 border-b border-border/60 shrink-0 relative">
-        <button
-          onClick={() => setShowPicker(!showPicker)}
-          className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md border border-border/60 bg-card/40 hover:border-lcars-amber/40 transition text-left"
-        >
-          <Radio className="size-3 text-lcars-amber shrink-0" />
-          <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground truncate flex-1">
-            {tenant?.name || 'Select Enterprise'}
-          </span>
-          <ChevronDown className="size-3 text-muted-foreground shrink-0" />
-        </button>
-        {showPicker && (
-          <>
-            <div className="fixed inset-0 z-40" onClick={() => setShowPicker(false)} />
-            <div className="absolute left-3 right-3 top-full mt-1 z-50 rounded-lg border border-border bg-card/95 backdrop-blur-xl shadow-xl overflow-hidden">
-              <div className="px-3 py-1.5 border-b border-border/60 text-[9px] font-mono uppercase tracking-widest text-lcars-amber">
-                Enterprise Registry
-              </div>
-              <div className="max-h-56 overflow-y-auto">
-                {tenants.length === 0 ? (
-                  <div className="px-3 py-3 text-[10px] text-muted-foreground text-center">
-                    No tenants. Configure Angels API in Keys.
-                  </div>
-                ) : (
-                  tenants.map(t => (
-                    <button
-                      key={t.id}
-                      onClick={() => pickTenant(t)}
-                      className={cn(
-                        'w-full px-3 py-1.5 text-left text-xs hover:bg-accent/50 transition',
-                        tenant?.id === t.id && 'bg-lcars-amber/10 text-lcars-amber',
-                      )}
-                    >
-                      <div className="font-medium truncate">{t.name}</div>
-                      {t.domain && (
-                        <div className="text-[9px] text-muted-foreground font-mono">{t.domain}</div>
-                      )}
-                    </button>
-                  ))
-                )}
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* Nav sections */}
+      {/* Nav */}
       <nav className="flex-1 overflow-y-auto scrollbar-none py-2 px-2 space-y-3">
         {NAV.map(section => (
           <Section
             key={section.title}
             section={section}
-            collapsed={!!collapsed[section.title]}
+            collapsed={collapsed}
+            sectionCollapsed={!!sectionCollapsed[section.title]}
             onToggle={() => toggleSection(section.title)}
+            badges={badges}
           />
         ))}
       </nav>
 
-      {/* Bottom: connection status */}
-      <div className="shrink-0 border-t border-border/60 px-3 py-2">
-        <div className="flex items-center gap-2 text-[10px] font-mono">
-          {online ? (
-            <>
-              <Wifi className="size-3 text-lcars-green" />
-              <span className="text-lcars-green uppercase tracking-wider">Mothership Live</span>
-            </>
-          ) : (
-            <>
-              <WifiOff className="size-3 text-lcars-amber" />
-              <span className="text-lcars-amber uppercase tracking-wider">Local Cache</span>
-            </>
+      {/* Bottom: status + collapse toggle */}
+      <div className="shrink-0 border-t border-border/60">
+        {!collapsed && (
+          <div className="px-3 py-2 flex items-center gap-2 text-[10px] font-mono">
+            {online ? (
+              <><Wifi className="size-3 text-lcars-green" /><span className="text-lcars-green uppercase tracking-wider">Mothership Live</span></>
+            ) : (
+              <><WifiOff className="size-3 text-lcars-amber" /><span className="text-lcars-amber uppercase tracking-wider">Local Cache</span></>
+            )}
+          </div>
+        )}
+        {/* Collapse / expand toggle */}
+        <button
+          onClick={onToggle}
+          className={cn(
+            'w-full flex items-center text-muted-foreground hover:text-foreground hover:bg-accent/30 transition-colors',
+            collapsed ? 'justify-center py-2.5' : 'gap-2 px-3 py-2 text-[10px] font-mono uppercase tracking-wider border-t border-border/60',
           )}
-        </div>
+          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
+          {collapsed
+            ? <PanelLeft className="size-4" />
+            : <><PanelLeftClose className="size-3.5" /><span>Collapse</span></>
+          }
+        </button>
       </div>
 
       {/* Bottom LCARS stripe */}
-      <div className="h-0.5 bg-gradient-to-r from-lcars-purple via-lcars-blue to-lcars-amber opacity-70 shrink-0" />
+      <div className="h-0.5 bg-gradient-to-r from-lcars-purple via-lcars-blue to-lcars-amber opacity-60 shrink-0" />
     </aside>
   )
 }
