@@ -8,7 +8,7 @@ export async function GET() {
 
   return NextResponse.json({
     status: 'ok',
-    service: 'JARVIS Command Center',
+    service: 'NIMUE Command Center',
     version: '2.0.0',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),

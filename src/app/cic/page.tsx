@@ -129,7 +129,7 @@ export default function CICPage() {
 
         {/* Footer strip */}
         <div className="flex items-center justify-between border-t border-white/10 pt-3 font-mono text-[9px] uppercase tracking-[0.25em] text-white/40">
-          <span>ANGEL OS · JARVIS CIC BUILD 2.0</span>
+          <span>ANGEL OS · NIMUE CIC BUILD 2.0</span>
           <span>ALL SYSTEMS CLIENT-SIDE · ZERO LATENCY</span>
           <span>LOCAL NODE · LAN BROADCAST</span>
         </div>

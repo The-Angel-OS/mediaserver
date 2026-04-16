@@ -94,7 +94,7 @@ export default function AppHeader({
             className="text-[11px] font-mono uppercase tracking-widest font-semibold"
             style={{ color: crumb?.color || '#f5a623' }}
           >
-            {crumb?.label || 'JARVIS'}
+            {crumb?.label || 'NIMUE'}
           </span>
         </div>
 

@@ -1,5 +1,5 @@
 /**
- * store.ts — Atomic JSON file store for JARVIS Command Center
+ * store.ts — Atomic JSON file store for NIMUE Command Center
  * Zero native deps. All data in C:\Dev\mediaserver\data\
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'

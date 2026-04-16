@@ -38,7 +38,7 @@ export default function Header() {
         const docs = res?.data?.docs || []
         setTenants(docs)
         // Restore last selected tenant
-        const saved = typeof window !== 'undefined' ? localStorage.getItem('jarvis-tenant') : null
+        const saved = typeof window !== 'undefined' ? localStorage.getItem('nimue-tenant') : null
         if (saved) {
           const found = docs.find((t: Tenant) => t.slug === saved)
           if (found) setTenant(found)
@@ -68,7 +68,7 @@ export default function Header() {
 
   const pickTenant = (t: Tenant) => {
     setTenant(t)
-    if (typeof window !== 'undefined') localStorage.setItem('jarvis-tenant', t.slug)
+    if (typeof window !== 'undefined') localStorage.setItem('nimue-tenant', t.slug)
     setShowTenantPicker(false)
   }
 
@@ -93,10 +93,10 @@ export default function Header() {
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <div className="size-7 rounded-md bg-gradient-to-br from-lcars-amber to-lcars-orange flex items-center justify-center shadow-sm shadow-lcars-amber/40">
-              <span className="text-black font-bold text-sm">J</span>
+              <span className="text-black font-bold text-sm">N</span>
             </div>
             <span className="hidden sm:inline text-sm font-mono uppercase tracking-widest text-foreground">
-              JARVIS
+              NIMUE
             </span>
           </Link>
 

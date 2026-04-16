@@ -1,6 +1,6 @@
 'use client'
 /**
- * JARVIS Bridge Dashboard — Angel OS Control Panel
+ * NIMUE Bridge Dashboard — Angel OS Control Panel
  * Framer Motion stagger + spring animations throughout.
  * Live data from /api/system + /api/payload/*
  */

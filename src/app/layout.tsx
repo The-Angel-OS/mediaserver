@@ -5,10 +5,10 @@ import SidebarLayout from '@/components/SidebarLayout'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'JARVIS — Angel OS Console',
+  title: 'NIMUE — Angel OS Console',
   description: 'Headless Angel OS client · Offline-first · Ad Astra',
   manifest: '/manifest.json',
-  appleWebApp: { capable: true, statusBarStyle: 'black-translucent', title: 'JARVIS' },
+  appleWebApp: { capable: true, statusBarStyle: 'black-translucent', title: 'NIMUE' },
 }
 
 export const viewport: Viewport = {

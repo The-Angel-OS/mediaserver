@@ -1,6 +1,6 @@
 {
-  "name": "JARVIS — Angel OS Console",
-  "short_name": "JARVIS",
+  "name": "NIMUE — Angel OS Console",
+  "short_name": "NIMUE",
   "description": "Angel OS local node — media, cameras, spaces, content management, and AI",
   "start_url": "/",
   "display": "standalone",

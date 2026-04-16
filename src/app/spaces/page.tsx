@@ -25,7 +25,7 @@ function LiveKitRoom({
   const [camOn, setCamOn] = useState(false)
   const [participants, setParticipants] = useState<string[]>(['You'])
   const [userName, setUserName] = useState(() =>
-    typeof window !== 'undefined' ? (localStorage.getItem('jarvis-username') || 'Captain') : 'Captain',
+    typeof window !== 'undefined' ? (localStorage.getItem('nimue-username') || 'Captain') : 'Captain',
   )
 
   const joinRoom = useCallback(async () => {
@@ -94,7 +94,7 @@ function LiveKitRoom({
             value={userName}
             onChange={e => {
               setUserName(e.target.value)
-              localStorage.setItem('jarvis-username', e.target.value)
+              localStorage.setItem('nimue-username', e.target.value)
             }}
             placeholder="Your name"
             className="h-8 text-xs w-40"
@@ -199,7 +199,7 @@ export default function SpacesPage() {
     setMessages(prev => [...prev, {
       id: Date.now().toString(),
       role: 'user',
-      author: localStorage.getItem('jarvis-username') || 'Captain',
+      author: localStorage.getItem('nimue-username') || 'Captain',
       text: draft.trim(),
       ts: Date.now(),
     }])

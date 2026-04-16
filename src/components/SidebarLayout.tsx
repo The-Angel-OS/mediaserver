@@ -20,14 +20,14 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
 
   // Persist collapsed state
   useEffect(() => {
-    const stored = localStorage.getItem('jarvis-sidebar-collapsed')
+    const stored = localStorage.getItem('nimue-sidebar-collapsed')
     if (stored === 'true') setCollapsed(true)
   }, [])
 
   const toggleCollapsed = useCallback(() => {
     setCollapsed(c => {
       const next = !c
-      localStorage.setItem('jarvis-sidebar-collapsed', String(next))
+      localStorage.setItem('nimue-sidebar-collapsed', String(next))
       return next
     })
   }, [])
@@ -59,8 +59,8 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
   // Command palette event bridge
   useEffect(() => {
     const open = () => setPaletteOpen(true)
-    window.addEventListener('jarvis:palette', open)
-    return () => window.removeEventListener('jarvis:palette', open)
+    window.addEventListener('nimue:palette', open)
+    return () => window.removeEventListener('nimue:palette', open)
   }, [])
 
   return (

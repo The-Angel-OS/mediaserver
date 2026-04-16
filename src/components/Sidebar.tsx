@@ -281,11 +281,11 @@ export default function Sidebar({
         collapsed ? 'justify-center py-3 px-2' : 'gap-2.5 px-4 py-3',
       )}>
         <div className="size-7 rounded-md bg-gradient-to-br from-lcars-amber to-lcars-orange flex items-center justify-center shadow-sm shadow-lcars-amber/30 shrink-0">
-          <span className="text-black font-bold text-sm">J</span>
+          <span className="text-black font-bold text-sm">N</span>
         </div>
         {!collapsed && (
           <div className="flex-1 min-w-0">
-            <div className="text-xs font-mono uppercase tracking-widest font-semibold">JARVIS</div>
+            <div className="text-xs font-mono uppercase tracking-widest font-semibold">NIMUE</div>
             <div className="text-[9px] font-mono text-muted-foreground">Angel OS Node</div>
           </div>
         )}

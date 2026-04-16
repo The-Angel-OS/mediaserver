@@ -1,11 +1,11 @@
 'use client'
 /**
- * /learn — JARVIS System Guide
+ * /learn — NIMUE System Guide
  * Combines the Angel OS /learn module style with answer53's
  * Framer Motion visual language: stagger entrance, spring cards,
  * orbital icons, animated bars, floating glows.
  *
- * Teaches: what JARVIS is, how each section works, how to configure,
+ * Teaches: what NIMUE is, how each section works, how to configure,
  * how to extend. Self-documenting control panel.
  */
 import { useState, useRef } from 'react'
@@ -204,7 +204,7 @@ const MODULES: Module[] = [
         icon: <Network className="size-3.5" />,
         content: (
           <div className="space-y-2">
-            <p>JARVIS proxies all <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/api/payload/*</code> requests to the Angel OS mothership at <code className="text-[11px] bg-white/6 px-1 rounded font-mono">NEXT_PUBLIC_ANGELS_URL</code>. Responses are cached locally in <code className="text-[11px] bg-white/6 px-1 rounded font-mono">data/payload-cache/</code> with a 2-hour TTL via the service worker.</p>
+            <p>NIMUE proxies all <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/api/payload/*</code> requests to the Angel OS mothership at <code className="text-[11px] bg-white/6 px-1 rounded font-mono">NEXT_PUBLIC_ANGELS_URL</code>. Responses are cached locally in <code className="text-[11px] bg-white/6 px-1 rounded font-mono">data/payload-cache/</code> with a 2-hour TTL via the service worker.</p>
             <p>The cache means content pages load instantly even when your internet is down or Angel OS is unreachable. The source badge (Live / Cached / Offline) shows you which you&apos;re seeing.</p>
           </div>
         ),
@@ -255,7 +255,7 @@ const MODULES: Module[] = [
         icon: <Hash className="size-3.5" />,
         content: (
           <div className="space-y-2">
-            <p><strong className="text-foreground">Spaces</strong> is a full-featured voice and video room powered by LiveKit. Join any room by name; JARVIS mints a short-lived JWT token server-side using your LiveKit API key + secret.</p>
+            <p><strong className="text-foreground">Spaces</strong> is a full-featured voice and video room powered by LiveKit. Join any room by name; NIMUE mints a short-lived JWT token server-side using your LiveKit API key + secret.</p>
             <p>To self-host LiveKit: <code className="text-[11px] bg-white/6 px-1 rounded font-mono">docker run -p 7880:7880 -p 7881:7881 -p 7882:7882/udp livekit/livekit-server --dev</code>. Configure the URL and credentials in Keys &amp; Config.</p>
           </div>
         ),
@@ -267,7 +267,7 @@ const MODULES: Module[] = [
         content: (
           <div className="space-y-2">
             <p><strong className="text-foreground">LEO</strong> (Local Entity Operator) is the Angel OS constitutional AI assistant. It routes through 4 model tiers (GPT-4 → Claude → Gemini → local Ollama) based on task complexity and credit availability.</p>
-            <p>From JARVIS, LEO can: generate YouTube chapters from SRT, optimize descriptions, generate hashtags, manage content, create bookings, and help diagnose system issues. All via the Angel OS <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/api/leo</code> stream endpoint.</p>
+            <p>From NIMUE, LEO can: generate YouTube chapters from SRT, optimize descriptions, generate hashtags, manage content, create bookings, and help diagnose system issues. All via the Angel OS <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/api/leo</code> stream endpoint.</p>
             <p>LEO has 118 tools across 15 engines. Use the chat tab for general questions; the specialized tabs (Chapters, Hashtags, Optimize) for YouTube workflow.</p>
           </div>
         ),
@@ -290,15 +290,15 @@ const MODULES: Module[] = [
           <div className="space-y-3">
             <div>
               <p className="font-mono text-[10px] text-lcars-red uppercase tracking-wider mb-1">MJPEG</p>
-              <p className="text-sm text-muted-foreground">Most IP cameras. JARVIS proxies the HTTP stream through <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/api/cameras/[id]/stream</code> so credentials never reach the browser. Works everywhere, no ffmpeg needed.</p>
+              <p className="text-sm text-muted-foreground">Most IP cameras. NIMUE proxies the HTTP stream through <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/api/cameras/[id]/stream</code> so credentials never reach the browser. Works everywhere, no ffmpeg needed.</p>
             </div>
             <div>
               <p className="font-mono text-[10px] text-lcars-blue uppercase tracking-wider mb-1">HLS</p>
-              <p className="text-sm text-muted-foreground">Higher quality, adaptive bitrate. Requires nginx-rtmp or ffmpeg to convert RTSP → m3u8 segments. JARVIS serves the playlist and segments. Good for recordings.</p>
+              <p className="text-sm text-muted-foreground">Higher quality, adaptive bitrate. Requires nginx-rtmp or ffmpeg to convert RTSP → m3u8 segments. NIMUE serves the playlist and segments. Good for recordings.</p>
             </div>
             <div>
               <p className="font-mono text-[10px] text-lcars-amber uppercase tracking-wider mb-1">RTSP direct</p>
-              <p className="text-sm text-muted-foreground">Needs the nginx-rtmp-module config in <code className="text-[11px] bg-white/6 px-1 rounded font-mono">nginx-config/jarvis.conf</code>. Run nginx on the same host as JARVIS to ingest RTSP and emit HLS.</p>
+              <p className="text-sm text-muted-foreground">Needs the nginx-rtmp-module config in <code className="text-[11px] bg-white/6 px-1 rounded font-mono">nginx-config/nimue.conf</code>. Run nginx on the same host as NIMUE to ingest RTSP and emit HLS.</p>
             </div>
           </div>
         ),
@@ -317,7 +317,7 @@ const MODULES: Module[] = [
         id: 'lan-discovery',
         title: 'LAN Discovery',
         icon: <Network className="size-3.5" />,
-        content: <p>Click <strong className="text-foreground">Scan LAN</strong> on any Infrastructure page to probe your subnet for VMware ESXi (443, 8443), Kubernetes API (6443), Docker Engine (2375), Portainer (9000), Plex (32400), Jellyfin (8096), Home Assistant (8123), IP cameras (554, 80), and other Angel OS JARVIS nodes (3001, 3030). 800ms timeout per probe across 60+ hosts.</p>,
+        content: <p>Click <strong className="text-foreground">Scan LAN</strong> on any Infrastructure page to probe your subnet for VMware ESXi (443, 8443), Kubernetes API (6443), Docker Engine (2375), Portainer (9000), Plex (32400), Jellyfin (8096), Home Assistant (8123), IP cameras (554, 80), and other Angel OS NIMUE nodes (3001, 3030). 800ms timeout per probe across 60+ hosts.</p>,
       },
       {
         id: 'proxies',
@@ -325,8 +325,8 @@ const MODULES: Module[] = [
         icon: <Server className="size-3.5" />,
         content: (
           <div className="space-y-2">
-            <p>Set <code className="text-[11px] bg-white/6 px-1 rounded font-mono">VMWARE_URL</code> and <code className="text-[11px] bg-white/6 px-1 rounded font-mono">K8S_DASHBOARD_URL</code> in <code className="text-[11px] bg-white/6 px-1 rounded font-mono">.env.local</code>. JARVIS embeds those UIs via nginx reverse-proxy rewrites at <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/proxy/vmware/</code> and <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/proxy/kubernetes/</code>.</p>
-            <p>Docker Engine: enable TCP API in Docker Desktop → Settings → General → &quot;Expose daemon on tcp://localhost:2375&quot;. JARVIS then auto-discovers containers via <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/api/infra/docker</code>.</p>
+            <p>Set <code className="text-[11px] bg-white/6 px-1 rounded font-mono">VMWARE_URL</code> and <code className="text-[11px] bg-white/6 px-1 rounded font-mono">K8S_DASHBOARD_URL</code> in <code className="text-[11px] bg-white/6 px-1 rounded font-mono">.env.local</code>. NIMUE embeds those UIs via nginx reverse-proxy rewrites at <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/proxy/vmware/</code> and <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/proxy/kubernetes/</code>.</p>
+            <p>Docker Engine: enable TCP API in Docker Desktop → Settings → General → &quot;Expose daemon on tcp://localhost:2375&quot;. NIMUE then auto-discovers containers via <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/api/infra/docker</code>.</p>
           </div>
         ),
       },
@@ -346,7 +346,7 @@ const MODULES: Module[] = [
         icon: <Globe className="size-3.5" />,
         content: (
           <div className="space-y-2">
-            <p>Open JARVIS in Chrome or Edge, click the install button in the address bar, and it installs like a native app with its own icon, offline cache, and window chrome. Works on any OS.</p>
+            <p>Open NIMUE in Chrome or Edge, click the install button in the address bar, and it installs like a native app with its own icon, offline cache, and window chrome. Works on any OS.</p>
             <p>Service worker caches <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/api/payload/*</code> responses for 2 hours (StaleWhileRevalidate), camera snapshots for 30 seconds (NetworkFirst), and static assets permanently (CacheFirst).</p>
           </div>
         ),
@@ -355,13 +355,13 @@ const MODULES: Module[] = [
         id: 'tauri',
         title: 'Windows system-tray (Sprint 47)',
         icon: <Box className="size-3.5" />,
-        content: <p>Tauri 2 wraps JARVIS in a ~10 MB signed Windows MSI with a system-tray icon. Menu: Open JARVIS · Cameras · Spaces · LEO · discovered nodes · quit. Auto-starts on login. Uses WebView2 (ships with Windows 10+) so LiveKit WebRTC works natively.</p>,
+        content: <p>Tauri 2 wraps NIMUE in a ~10 MB signed Windows MSI with a system-tray icon. Menu: Open NIMUE · Cameras · Spaces · LEO · discovered nodes · quit. Auto-starts on login. Uses WebView2 (ships with Windows 10+) so LiveKit WebRTC works natively.</p>,
       },
       {
         id: 'capacitor',
         title: 'Android & iOS (Sprint 48–49)',
         icon: <Wifi className="size-3.5" />,
-        content: <p>Capacitor 6 wraps the same Next.js build. <code className="text-[11px] bg-white/6 px-1 rounded font-mono">npx cap add android/ios</code>, configure <code className="text-[11px] bg-white/6 px-1 rounded font-mono">com.angels.jarvis</code>, build the AAB/IPA. Storage is already abstracted via <code className="text-[11px] bg-white/6 px-1 rounded font-mono">src/lib/storage.ts</code> — Capacitor Preferences on device, localStorage in the browser.</p>,
+        content: <p>Capacitor 6 wraps the same Next.js build. <code className="text-[11px] bg-white/6 px-1 rounded font-mono">npx cap add android/ios</code>, configure <code className="text-[11px] bg-white/6 px-1 rounded font-mono">com.angels.nimue</code>, build the AAB/IPA. Storage is already abstracted via <code className="text-[11px] bg-white/6 px-1 rounded font-mono">src/lib/storage.ts</code> — Capacitor Preferences on device, localStorage in the browser.</p>,
       },
     ],
   },
@@ -437,9 +437,9 @@ export default function LearnPage() {
           </div>
           <div>
             <div className="text-[10px] font-mono uppercase tracking-widest text-lcars-amber/70 mb-2">
-              ── System Guide · JARVIS v3
+              ── System Guide · NIMUE v3
             </div>
-            <h1 className="text-4xl font-mono font-semibold tracking-tight">Learn JARVIS</h1>
+            <h1 className="text-4xl font-mono font-semibold tracking-tight">Learn NIMUE</h1>
             <p className="text-base text-muted-foreground mt-2 leading-relaxed">
               The Angel OS control panel. Local node, offline-first, LAN-served.
               Understand every module — then bend it to your mission.
@@ -491,7 +491,7 @@ export default function LearnPage() {
         </motion.div>
         <div className="flex-1 text-center sm:text-left">
           <div className="font-mono text-sm font-semibold">Talk to LEO</div>
-          <div className="text-xs text-muted-foreground mt-0.5">LEO can answer questions about JARVIS, configure settings, and help you get things done conversationally.</div>
+          <div className="text-xs text-muted-foreground mt-0.5">LEO can answer questions about NIMUE, configure settings, and help you get things done conversationally.</div>
         </div>
         <Link
           href="/leo"
