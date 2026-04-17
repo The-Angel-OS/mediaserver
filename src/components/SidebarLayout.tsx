@@ -63,6 +63,16 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
     return () => window.removeEventListener('nimue:palette', open)
   }, [])
 
+  // Boot the inventory uploader once per session — it lazy-loads to keep
+  // IndexedDB/crypto code out of the initial bundle.
+  useEffect(() => {
+    let cancelled = false
+    import('@/lib/inventoryUploader')
+      .then(mod => { if (!cancelled) mod.startUploader() })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [])
+
   return (
     <>
       <Sidebar collapsed={collapsed} onToggle={toggleCollapsed} />

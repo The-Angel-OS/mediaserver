@@ -10,7 +10,7 @@ import {
   Search, LayoutDashboard, Monitor, Activity, FileText, BookOpen,
   ShoppingBag, Image, Package, CalendarDays, MapPin, Hash, Inbox,
   Sparkles, Camera, Film, Server, Box, Key, Youtube, Radio,
-  ExternalLink, ArrowRight,
+  ExternalLink, ArrowRight, Upload, Plus,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -34,6 +34,8 @@ const NAV_ITEMS: Item[] = [
   { id: 'products',     label: 'Products',         sub: 'Content',        icon: ShoppingBag,     color: '#22cc88',  href: '/content/products' },
   { id: 'events',       label: 'Events',           sub: 'Content',        icon: CalendarDays,    color: '#99ccff',  href: '/content/events' },
   { id: 'media',        label: 'Media',            sub: 'Content',        icon: Image,           color: '#99ccff',  href: '/media' },
+  { id: 'inventory',    label: 'Inventory Queue',  sub: 'Field Ops',      icon: Upload,          color: '#ff9a4d',  href: '/inventory' },
+  { id: 'inventory-new',label: 'Start New Batch',  sub: 'Field Ops',      icon: Plus,            color: '#ff9a4d',  href: '/inventory/new' },
   { id: 'orders',       label: 'Orders',           sub: 'Commerce',       icon: Package,         color: '#22cc88',  href: '/content/orders' },
   { id: 'bookings',     label: 'Bookings',         sub: 'Commerce',       icon: CalendarDays,    color: '#22cc88',  href: '/content/bookings' },
   { id: 'spaces-mgr',   label: 'Spaces Manager',   sub: 'Commerce',       icon: MapPin,          color: '#22cc88',  href: '/content/spaces-mgr' },

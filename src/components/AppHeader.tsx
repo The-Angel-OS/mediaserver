@@ -20,6 +20,8 @@ const CRUMBS: Record<string, Crumb> = {
   '/content/products':      { label: 'Products',        color: '#22cc88', parent: 'Content',        parentColor: '#99ccff' },
   '/content/events':        { label: 'Events',          color: '#99ccff', parent: 'Content',        parentColor: '#99ccff' },
   '/media':                 { label: 'Media',           color: '#99ccff', parent: 'Content',        parentColor: '#99ccff' },
+  '/inventory':             { label: 'Inventory Queue', color: '#ff9a4d', parent: 'Field Ops',      parentColor: '#ff9a4d' },
+  '/inventory/new':         { label: 'New Batch',       color: '#ff9a4d', parent: 'Field Ops',      parentColor: '#ff9a4d' },
   '/content/orders':        { label: 'Orders',          color: '#22cc88', parent: 'Commerce',       parentColor: '#22cc88' },
   '/content/bookings':      { label: 'Bookings',        color: '#22cc88', parent: 'Commerce',       parentColor: '#22cc88' },
   '/content/spaces-mgr':    { label: 'Spaces Manager',  color: '#22cc88', parent: 'Commerce',       parentColor: '#22cc88' },

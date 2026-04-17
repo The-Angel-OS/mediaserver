@@ -14,7 +14,7 @@ import {
   LayoutDashboard, Radio, FileText, ShoppingBag, Image, Package,
   Hash, Inbox, Sparkles, Youtube, Key, Activity, Camera, Film,
   Server, Box, Monitor, ChevronDown, ChevronRight, Wifi, WifiOff,
-  BookOpen, CalendarDays, MapPin, PanelLeftClose, PanelLeft,
+  BookOpen, CalendarDays, MapPin, PanelLeftClose, PanelLeft, Upload,
 } from 'lucide-react'
 
 interface Tenant { id: string; name: string; slug: string; domain?: string }
@@ -39,6 +39,13 @@ const NAV: NavSection[] = [
       { href: '/content/products', label: 'Products', icon: ShoppingBag },
       { href: '/content/events',   label: 'Events',   icon: CalendarDays },
       { href: '/media',            label: 'Media',    icon: Image },
+    ],
+  },
+  {
+    title: 'Field Ops', accent: '#ff9a4d',
+    items: [
+      { href: '/inventory',     label: 'Inventory', icon: Upload, badgeKey: 'inventoryQueue' },
+      { href: '/inventory/new', label: 'New Batch', icon: Camera },
     ],
   },
   {
@@ -248,14 +255,36 @@ export default function Sidebar({
     const load = () =>
       fetch('/api/system')
         .then(r => r.json())
-        .then(d => setBadges({
+        .then(d => setBadges(prev => ({
+          ...prev,
           inbox: (d.incidents?.open || 0) + (d.inbox?.new || 0),
           cameras: 0, // can extend: fetch camera count
-        }))
+        })))
         .catch(() => {})
     load()
     const iv = setInterval(load, 15_000)
     return () => clearInterval(iv)
+  }, [])
+
+  // Inventory queue badge (pending + error items)
+  useEffect(() => {
+    let cancelled = false
+    const load = async () => {
+      try {
+        const { getStats } = await import('@/lib/inventoryQueue')
+        const s = await getStats()
+        if (!cancelled) setBadges(prev => ({ ...prev, inventoryQueue: s.pending + s.error }))
+      } catch { /* IndexedDB unavailable */ }
+    }
+    load()
+    const onUp = () => load()
+    window.addEventListener('nimue:uploader', onUp)
+    const iv = setInterval(load, 5_000)
+    return () => {
+      cancelled = true
+      clearInterval(iv)
+      window.removeEventListener('nimue:uploader', onUp)
+    }
   }, [])
 
   const pickTenant = (t: Tenant) => {

@@ -1,4 +1,13 @@
 import '@testing-library/jest-dom'
+import 'fake-indexeddb/auto'
+
+// Polyfill crypto.subtle for environments that don't expose it in jsdom
+// (vitest + node 20 has it natively, but guard for older CI images).
+if (typeof globalThis.crypto === 'undefined' || !globalThis.crypto.subtle) {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { webcrypto } = require('node:crypto')
+  Object.defineProperty(globalThis, 'crypto', { value: webcrypto, configurable: true })
+}
 
 // Polyfill localStorage for jsdom
 if (typeof window !== 'undefined' && !window.localStorage) {
