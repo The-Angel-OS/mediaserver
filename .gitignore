@@ -38,3 +38,6 @@ next-env.d.ts
 # JARVIS data store (local secrets/logs)
 /data/*.json
 !/data/.gitkeep
+
+# payload cache
+/data/payload-cache/
