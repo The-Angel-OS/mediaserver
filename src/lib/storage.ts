@@ -24,8 +24,10 @@ function isCapacitor(): boolean {
 async function getCapacitorPreferences() {
   if (!isCapacitor()) return null
   try {
-    const { Preferences } = await import('@capacitor/preferences')
-    return Preferences
+    // Obfuscate module specifier so webpack doesn't try to resolve it at build time
+    // (package is only installed inside Capacitor runtime)
+    const mod = await import(/* webpackIgnore: true */ '@capacitor' + '/preferences').catch(() => null)
+    return mod?.Preferences ?? null
   } catch {
     return null
   }

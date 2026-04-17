@@ -5,7 +5,9 @@
  */
 import { useEffect, useState } from 'react'
 
-const LINES = [
+type LineSeed = { ts: string; tag: string; msg: string; tone: 'ok' | 'info' | 'warn' | 'fault' }
+
+const LINES: readonly LineSeed[] = [
   { ts: '0000', tag: 'SENSORS', msg: 'scan cycle complete · 0 anomalies', tone: 'ok' },
   { ts: '0000', tag: 'COMMS', msg: 'federation heartbeat received · spacesangels.com · 42ms', tone: 'ok' },
   { ts: '0000', tag: 'PWR', msg: 'main bus nominal · 98.4% efficiency', tone: 'ok' },
@@ -20,7 +22,7 @@ const LINES = [
   { ts: '0000', tag: 'TAC', msg: 'all tracks classified · 3 friendlies · 1 neutral', tone: 'ok' },
 ] as const
 
-type Line = (typeof LINES)[number] & { id: number; ts: string }
+type Line = LineSeed & { id: number }
 
 const TONE_COLOR: Record<string, string> = {
   ok: 'var(--lcars-green)',
