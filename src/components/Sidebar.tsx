@@ -24,6 +24,12 @@ type NavSection = { title: string; items: NavItem[]; accent: string }
 
 const NAV: NavSection[] = [
   {
+    title: 'Connect', accent: '#99ccff',
+    items: [
+      { href: '/connect', label: 'Federation', icon: Radio },
+    ],
+  },
+  {
     title: 'Bridge', accent: '#f5a623',
     items: [
       { href: '/',    label: 'Dashboard',   icon: LayoutDashboard },

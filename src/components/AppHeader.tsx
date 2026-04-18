@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 import { Search, Bell, Sparkles, Wifi, WifiOff, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import ConnectionPill from '@/components/ConnectionPill'
 
 type Crumb = { label: string; color: string; parent?: string; parentColor?: string }
 
@@ -36,6 +37,7 @@ const CRUMBS: Record<string, Crumb> = {
   '/book':                  { label: 'Books',           color: '#99ccff', parent: 'Library',        parentColor: '#99ccff' },
   '/youtube':               { label: 'YouTube',         color: '#7788aa', parent: 'System',         parentColor: '#7788aa' },
   '/keys':                  { label: 'Keys & Config',   color: '#7788aa', parent: 'System',         parentColor: '#7788aa' },
+  '/connect':               { label: 'Federation',      color: '#99ccff', parent: 'Connect',        parentColor: '#99ccff' },
 }
 
 function resolveCrumb(pathname: string): Crumb | undefined {
@@ -114,6 +116,8 @@ export default function AppHeader({
 
         {/* Right actions */}
         <div className="flex items-center gap-1 shrink-0">
+          {/* Endeavor combadge */}
+          <ConnectionPill />
           {/* Connection status pill */}
           <div className={cn(
             'hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[10px] font-mono transition-colors',

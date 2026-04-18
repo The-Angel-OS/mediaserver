@@ -36,6 +36,7 @@ const NAV_ITEMS: Item[] = [
   { id: 'media',        label: 'Media',            sub: 'Content',        icon: Image,           color: '#99ccff',  href: '/media' },
   { id: 'inventory',    label: 'Inventory Queue',  sub: 'Field Ops',      icon: Upload,          color: '#ff9a4d',  href: '/inventory' },
   { id: 'inventory-new',label: 'Start New Batch',  sub: 'Field Ops',      icon: Plus,            color: '#ff9a4d',  href: '/inventory/new' },
+  { id: 'connect',      label: 'Federation',       sub: 'Connect',        icon: Radio,           color: '#99ccff',  href: '/connect' },
   { id: 'orders',       label: 'Orders',           sub: 'Commerce',       icon: Package,         color: '#22cc88',  href: '/content/orders' },
   { id: 'bookings',     label: 'Bookings',         sub: 'Commerce',       icon: CalendarDays,    color: '#22cc88',  href: '/content/bookings' },
   { id: 'spaces-mgr',   label: 'Spaces Manager',   sub: 'Commerce',       icon: MapPin,          color: '#22cc88',  href: '/content/spaces-mgr' },
