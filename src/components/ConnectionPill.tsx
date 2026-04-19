@@ -64,8 +64,15 @@ export default function ConnectionPill() {
 
       {open ? (
         <div
-          className="absolute right-0 top-full z-50 mt-1 w-64 rounded-lg border border-border/60 bg-background/95 backdrop-blur-xl shadow-xl"
+          className="absolute right-0 top-full z-50 mt-1 w-64 rounded-lg border shadow-xl"
           role="menu"
+          style={{
+            // Solid bg instead of bg-background/95 — the /95 compiles to
+            // color-mix() which fails silently on older webviews (LG webOS,
+            // BrowseHere) leaving the dropdown transparent and unreadable.
+            backgroundColor: 'var(--card)',
+            borderColor: 'var(--border)',
+          }}
         >
           <div className="border-b border-border/40 px-3 py-2">
             <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">

@@ -353,7 +353,10 @@ export default function Sidebar({
           {showPicker && (
             <>
               <div className="fixed inset-0 z-40" onClick={() => setShowPicker(false)} />
-              <div className="absolute left-3 right-3 top-full mt-1 z-50 rounded-lg border border-border bg-card/97 backdrop-blur-xl shadow-xl overflow-hidden">
+              <div
+                className="absolute left-3 right-3 top-full mt-1 z-50 rounded-lg border border-border shadow-xl overflow-hidden"
+                style={{ backgroundColor: 'var(--card)' }}
+              >
                 <div className="px-3 py-1.5 border-b border-border/60 text-[9px] font-mono uppercase tracking-widest text-lcars-amber">
                   Enterprise Registry
                 </div>

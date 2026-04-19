@@ -161,6 +161,131 @@ function ModuleCard({ mod }: { mod: Module }) {
 /* ─── Module definitions ─────────────────────────────────────────────── */
 const MODULES: Module[] = [
   {
+    id: 'browser-setup',
+    title: 'Browser Setup',
+    subtitle: 'HTTPS, secure context, PWA install, TV & embedded browsers',
+    icon: <Shield className="size-6" />,
+    color: '#22cc88',
+    glow: '#22cc88',
+    sections: [
+      {
+        id: 'secure-context',
+        title: 'Why HTTPS matters (even on your LAN)',
+        icon: <Lock className="size-3.5" />,
+        content: (
+          <div className="space-y-2">
+            <p>Modern browsers restrict many APIs to <strong className="text-foreground">secure contexts</strong> — only <code className="text-[11px] bg-white/6 px-1 rounded font-mono">https://</code>, <code className="text-[11px] bg-white/6 px-1 rounded font-mono">localhost</code>, and <code className="text-[11px] bg-white/6 px-1 rounded font-mono">127.0.0.1</code> qualify. Plain HTTP over a LAN IP (e.g. <code className="text-[11px] bg-white/6 px-1 rounded font-mono">http://192.168.0.234:3000</code>) does <em>not</em>.</p>
+            <p>In a non-secure context, these APIs are <strong className="text-foreground">undefined</strong>:</p>
+            <ul className="list-disc list-inside space-y-1 text-[13px] text-muted-foreground ml-2">
+              <li><code className="text-[11px] bg-white/6 px-1 rounded font-mono">crypto.subtle</code> — SHA-256 hashing (Nimue inventory dedupe)</li>
+              <li><code className="text-[11px] bg-white/6 px-1 rounded font-mono">crypto.randomUUID</code> — UUID generation</li>
+              <li><code className="text-[11px] bg-white/6 px-1 rounded font-mono">navigator.geolocation</code> — GPS tagging for photo inventory</li>
+              <li>Service Workers &amp; Push Notifications — PWA offline cache</li>
+              <li><code className="text-[11px] bg-white/6 px-1 rounded font-mono">getUserMedia</code> — camera/microphone for Spaces (LiveKit)</li>
+            </ul>
+            <p>Nimue gracefully degrades where it can (FNV-1a fallback for hashing), but for the full experience — especially Spaces and PWA install — use HTTPS.</p>
+          </div>
+        ),
+      },
+      {
+        id: 'dev-https',
+        title: 'Enable HTTPS in dev',
+        icon: <Key className="size-3.5" />,
+        content: (
+          <div className="space-y-2">
+            <p>Next.js 15 bakes in a dev-mode TLS server. We&apos;ve wired it up as a script:</p>
+            <pre className="text-[11px] bg-white/6 p-3 rounded font-mono border border-white/6 overflow-x-auto">pnpm dev:https</pre>
+            <p>On first run it prompts to install <strong className="text-foreground">mkcert</strong>, generates a local root CA + a cert for <code className="text-[11px] bg-white/6 px-1 rounded font-mono">0.0.0.0</code> and <code className="text-[11px] bg-white/6 px-1 rounded font-mono">localhost</code> under <code className="text-[11px] bg-white/6 px-1 rounded font-mono">.next/</code>, and boots on <code className="text-[11px] bg-white/6 px-1 rounded font-mono">https://192.168.0.234:3000</code> (or whatever your LAN IP is).</p>
+            <p>The browser will warn about the self-signed cert on devices other than the dev machine. Click <em>Advanced → Proceed anyway</em> — the origin still counts as secure-context once you click through, so <code className="text-[11px] bg-white/6 px-1 rounded font-mono">crypto.subtle</code> et al. start working.</p>
+          </div>
+        ),
+      },
+      {
+        id: 'trust-cert',
+        title: 'Trust the cert on other devices (optional)',
+        icon: <Shield className="size-3.5" />,
+        content: (
+          <div className="space-y-2">
+            <p>If you want a clean green-lock experience on phones, tablets, or the TV (no warning page), install mkcert&apos;s root CA on those devices.</p>
+            <p>On the dev machine:</p>
+            <pre className="text-[11px] bg-white/6 p-3 rounded font-mono border border-white/6 overflow-x-auto">mkcert -CAROOT</pre>
+            <p>That prints a path to <code className="text-[11px] bg-white/6 px-1 rounded font-mono">rootCA.pem</code>. Copy it to each device and import:</p>
+            <ul className="list-disc list-inside space-y-1 text-[13px] text-muted-foreground ml-2">
+              <li><strong className="text-foreground">Android:</strong> Settings → Security → Install from storage → pick rootCA.pem</li>
+              <li><strong className="text-foreground">iOS:</strong> AirDrop or email the cert, open, Settings → Profile Downloaded → Install. Then Settings → General → About → Certificate Trust Settings → enable.</li>
+              <li><strong className="text-foreground">Windows:</strong> Double-click → Install Certificate → Local Machine → Trusted Root Certification Authorities</li>
+              <li><strong className="text-foreground">Android TV / LG webOS:</strong> Usually no user-accessible cert store. Click through the warning instead — secure context still activates.</li>
+            </ul>
+          </div>
+        ),
+      },
+      {
+        id: 'browser-compat',
+        title: 'Browser compatibility matrix',
+        icon: <Globe className="size-3.5" />,
+        content: (
+          <div className="space-y-2">
+            <p>Nimue uses modern CSS (<code className="text-[11px] bg-white/6 px-1 rounded font-mono">oklch()</code>, <code className="text-[11px] bg-white/6 px-1 rounded font-mono">color-mix()</code>) with sRGB hex fallbacks via <code className="text-[11px] bg-white/6 px-1 rounded font-mono">@supports</code>. Baseline:</p>
+            <div className="space-y-1.5 font-mono text-[11px]">
+              {[
+                ['Chrome / Edge / Brave', '111+', 'Full support', '#22cc88'],
+                ['Firefox', '113+', 'Full support', '#22cc88'],
+                ['Safari / iOS Safari', '15.4+', 'Full support', '#22cc88'],
+                ['Chrome Android', '111+', 'Full support', '#22cc88'],
+                ['Samsung Internet', '22+', 'Full support', '#22cc88'],
+                ['LG webOS TV', 'webOS 6+', 'sRGB fallback (no oklch)', '#f5a623'],
+                ['BrowseHere (Android TV)', 'varies', 'sRGB fallback — works', '#f5a623'],
+                ['IE / legacy Edge', '—', 'Unsupported', '#cc4444'],
+              ].map(([browser, version, status, color]) => (
+                <div key={browser} className="flex items-center gap-2 py-1 border-b border-white/6 last:border-0">
+                  <div className="size-1.5 rounded-full shrink-0" style={{ background: color }} />
+                  <span className="text-foreground flex-1 truncate">{browser}</span>
+                  <span className="text-muted-foreground">{version}</span>
+                  <span className="text-muted-foreground text-[10px] italic">{status}</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-[12px] text-muted-foreground mt-2">On older webviews that don&apos;t parse <code className="text-[11px] bg-white/6 px-1 rounded font-mono">oklch()</code>, Nimue ships sRGB hex variables as the base layer — everything still renders, just in the fallback palette.</p>
+          </div>
+        ),
+      },
+      {
+        id: 'install-pwa',
+        title: 'Install as an app',
+        icon: <Globe className="size-3.5" />,
+        content: (
+          <div className="space-y-2">
+            <p>Over HTTPS, Nimue installs as a Progressive Web App on every platform:</p>
+            <ul className="list-disc list-inside space-y-1 text-[13px] text-muted-foreground ml-2">
+              <li><strong className="text-foreground">Desktop Chrome/Edge:</strong> click the install icon in the URL bar (looks like a monitor with a down-arrow)</li>
+              <li><strong className="text-foreground">iOS Safari:</strong> Share → Add to Home Screen</li>
+              <li><strong className="text-foreground">Android Chrome:</strong> ⋮ → Install app</li>
+              <li><strong className="text-foreground">LG TV / Smart TV:</strong> bookmark the URL — most TV browsers don&apos;t support real PWA install, but the bookmark gives you a one-tap launcher on the home screen</li>
+            </ul>
+            <p>Installed PWAs get their own icon, own window chrome (no URL bar), offline cache for content, and background sync for the inventory queue.</p>
+          </div>
+        ),
+      },
+      {
+        id: 'tv-browser',
+        title: 'TV & embedded browser tips',
+        icon: <Monitor className="size-3.5" />,
+        content: (
+          <div className="space-y-2">
+            <p>TVs and set-top boxes ship old Chromium forks with slow update cycles. Things to know:</p>
+            <ul className="list-disc list-inside space-y-1 text-[13px] text-muted-foreground ml-2">
+              <li>Use <strong className="text-foreground">BrowseHere</strong> or <strong className="text-foreground">TV Bro</strong> on Android TV / Fire TV — both track mainline Chromium closely.</li>
+              <li>LG webOS&apos; stock browser is usable on webOS 6+ (2021 sets and later). Older sets may fall back to the hex palette but still render.</li>
+              <li>If the page loads completely unstyled, check DevTools remote (<code className="text-[11px] bg-white/6 px-1 rounded font-mono">chrome://inspect</code> from your desktop) — likely a pre-<code className="text-[11px] bg-white/6 px-1 rounded font-mono">@supports</code> CSS parse issue we missed.</li>
+              <li>Hardware cursor / remote nav: every interactive element in Nimue is keyboard-focusable. Use the directional pad + OK button.</li>
+              <li>4K 60fps video on the CIC display — TVs handle this natively. Leave the wall monitor on <code className="text-[11px] bg-white/6 px-1 rounded font-mono">/cic</code> for ambient battle-stations ambience.</li>
+            </ul>
+          </div>
+        ),
+      },
+    ],
+  },
+  {
     id: 'bridge',
     title: 'Bridge',
     subtitle: 'Command center, real-time system health, activity log',

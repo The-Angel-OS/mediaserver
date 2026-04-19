@@ -113,7 +113,10 @@ export default function Header() {
             {showTenantPicker && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setShowTenantPicker(false)} />
-                <div className="absolute left-0 top-full mt-1 z-50 w-64 rounded-lg border border-border bg-card/95 backdrop-blur-xl shadow-xl overflow-hidden">
+                <div
+                  className="absolute left-0 top-full mt-1 z-50 w-64 rounded-lg border border-border shadow-xl overflow-hidden"
+                  style={{ backgroundColor: 'var(--card)' }}
+                >
                   <div className="px-3 py-2 border-b border-border/60 text-[10px] font-mono uppercase tracking-widest text-lcars-amber">
                     Enterprise Registry
                   </div>
