@@ -117,14 +117,48 @@ export async function _resetDbForTests(): Promise<void> {
 
 // ─── Hashing ────────────────────────────────────────────────────────────────
 
-/** SHA-256 of a blob, truncated to 16 hex chars (64 bits — plenty for dedupe). */
+/** SHA-256 of a blob, truncated to 16 hex chars (64 bits — plenty for dedupe).
+ *
+ * `crypto.subtle` is only defined in secure contexts (HTTPS + localhost). Over
+ * plain HTTP on a LAN IP it's undefined and calling it throws. We fall back to
+ * a cheap FNV-1a hash so the queue still dedupes (weaker, but good enough for
+ * a single-user field-capture queue — the server re-derives the real hash).
+ */
 export async function hashBlob(blob: Blob): Promise<string> {
   const buf = await blob.arrayBuffer()
-  const digest = await crypto.subtle.digest('SHA-256', buf)
-  const hex = Array.from(new Uint8Array(digest))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('')
+  const subtle = typeof crypto !== 'undefined' ? crypto.subtle : undefined
+  if (subtle && typeof subtle.digest === 'function') {
+    try {
+      const digest = await subtle.digest('SHA-256', buf)
+      const hex = Array.from(new Uint8Array(digest))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('')
+      return hex.slice(0, 16)
+    } catch {
+      /* fall through to FNV-1a */
+    }
+  }
+  // FNV-1a 64-bit-ish fallback — non-secure-context safe.
+  const bytes = new Uint8Array(buf)
+  let h1 = 0x811c9dc5
+  let h2 = 0x01000193
+  for (let i = 0; i < bytes.length; i++) {
+    h1 = Math.imul(h1 ^ bytes[i], 0x01000193) >>> 0
+    h2 = Math.imul(h2 ^ bytes[bytes.length - 1 - i], 0x811c9dc5) >>> 0
+  }
+  const hex = h1.toString(16).padStart(8, '0') + h2.toString(16).padStart(8, '0')
   return hex.slice(0, 16)
+}
+
+/** UUID with non-secure-context fallback. `crypto.randomUUID` is undefined on
+ *  http://LAN-IP — we substitute a Math.random v4-ish id so queue inserts work. */
+function safeUUID(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    try { return crypto.randomUUID() } catch { /* fall through */ }
+  }
+  const rnd = (n: number) =>
+    Array.from({ length: n }, () => Math.floor(Math.random() * 16).toString(16)).join('')
+  return `${rnd(8)}-${rnd(4)}-4${rnd(3)}-${['8','9','a','b'][Math.floor(Math.random()*4)]}${rnd(3)}-${rnd(12)}`
 }
 
 // ─── Backoff ────────────────────────────────────────────────────────────────
@@ -145,7 +179,7 @@ export async function createBatch(init: Omit<InventoryBatch, 'id' | 'createdAt'>
   const db = await getDb()
   const batch: InventoryBatch = {
     ...init,
-    id: crypto.randomUUID(),
+    id: safeUUID(),
     createdAt: Date.now(),
   }
   await db.put('batches', batch)

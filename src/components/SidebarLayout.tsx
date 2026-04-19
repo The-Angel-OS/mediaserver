@@ -68,8 +68,16 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
   useEffect(() => {
     let cancelled = false
     import('@/lib/inventoryUploader')
-      .then(mod => { if (!cancelled) mod.startUploader() })
-      .catch(() => {})
+      .then(mod => {
+        if (cancelled) return
+        // Wrap in Promise.resolve so sync throws also hit the catch —
+        // on non-secure contexts (http://LAN-IP) crypto.subtle is undefined
+        // and we don't want an unhandled rejection to crash the app shell.
+        Promise.resolve()
+          .then(() => mod.startUploader())
+          .catch(err => { console.warn('[nimue] uploader boot failed:', err) })
+      })
+      .catch(err => { console.warn('[nimue] uploader import failed:', err) })
     return () => { cancelled = true }
   }, [])
 
