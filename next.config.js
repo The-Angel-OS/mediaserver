@@ -12,6 +12,20 @@ const baseConfig = {
     ],
   },
   serverExternalPackages: ['livekit-server-sdk', 'better-sqlite3'],
+  // Next 15.3+ rejects cross-origin requests for /_next/* assets with 400
+  // Bad Request unless the origin is in this allowlist. `next dev -H 0.0.0.0`
+  // binds to every interface, but accessing via LAN IP is still considered
+  // cross-origin and gets blocked. LAN subnets + .local (mDNS) covered here.
+  allowedDevOrigins: [
+    '192.168.0.0/16',
+    '192.168.*',
+    '10.0.0.0/8',
+    '10.*',
+    '172.16.0.0/12',
+    '172.*',
+    '*.local',
+    '*.lan',
+  ],
   async rewrites() {
     return {
       beforeFiles: [
