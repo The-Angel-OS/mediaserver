@@ -16,13 +16,16 @@ const baseConfig = {
   // Bad Request unless the origin is in this allowlist. `next dev -H 0.0.0.0`
   // binds to every interface, but accessing via LAN IP is still considered
   // cross-origin and gets blocked. LAN subnets + .local (mDNS) covered here.
+  // Glob wildcards match a single dot-separated segment, so an IPv4
+  // address like 192.168.0.234 needs `192.168.*.*` (4 segments), not
+  // `192.168.*` (which would only match 192.168.foo).
   allowedDevOrigins: [
-    '192.168.0.0/16',
-    '192.168.*',
-    '10.0.0.0/8',
-    '10.*',
-    '172.16.0.0/12',
-    '172.*',
+    '192.168.*.*',
+    '10.*.*.*',
+    '172.16.*.*', '172.17.*.*', '172.18.*.*', '172.19.*.*',
+    '172.20.*.*', '172.21.*.*', '172.22.*.*', '172.23.*.*',
+    '172.24.*.*', '172.25.*.*', '172.26.*.*', '172.27.*.*',
+    '172.28.*.*', '172.29.*.*', '172.30.*.*', '172.31.*.*',
     '*.local',
     '*.lan',
   ],
