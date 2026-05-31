@@ -21,16 +21,19 @@ async function findUserThumbnail(basePath: string, fileName: string): Promise<st
 }
 
 /**
- * Get thumbnail for a video file
- * Only checks for user-provided images with matching filenames
+ * Get thumbnail for a video file.
+ *
+ * Prefers a user-provided sibling image (same basename). When none exists,
+ * falls back to the video's own path — /api/thumbnail detects the video
+ * extension and lazily generates + caches a frame on first request.
  */
 export async function getThumbnail(videoPath: string, basePath: string, fileName: string): Promise<string | undefined> {
   try {
     const userThumbnail = await findUserThumbnail(basePath, fileName)
-    return userThumbnail
+    return userThumbnail ?? videoPath
   } catch (error) {
     console.error('Failed to get thumbnail:', error)
-    return undefined
+    return videoPath
   }
 }
 

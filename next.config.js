@@ -53,9 +53,21 @@ try {
     cacheOnFrontEndNav: true,
     aggressiveFrontEndNavCaching: true,
     reloadOnOnline: true,
-    disable: process.env.NODE_ENV === 'development',
+    // DISABLED while recovering clients from a stale precaching SW (see
+    // public/sw.js, which is now a self-destruct worker). Re-enabling this
+    // regenerates a precaching sw.js and overwrites the killer — only flip back
+    // to `process.env.NODE_ENV === 'development'` once all clients have recovered.
+    disable: true,
     workboxOptions: {
       disableDevLogs: true,
+      // Self-heal stale clients: a new SW activates immediately, claims open
+      // pages, and purges outdated precaches. Without this, a SW installed by
+      // an earlier prod build keeps serving a stale app-shell that points at a
+      // deleted CSS chunk → page renders unstyled (and a Google TV webview
+      // can't easily clear its cache to recover).
+      skipWaiting: true,
+      clientsClaim: true,
+      cleanupOutdatedCaches: true,
       runtimeCaching: [
         {
           urlPattern: /\/api\/payload\/.*/i,

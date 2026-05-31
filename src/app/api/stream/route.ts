@@ -2,11 +2,9 @@ import { NextRequest } from 'next/server'
 import { stat, createReadStream } from 'fs'
 import { extname, resolve } from 'path'
 import { promisify } from 'util'
+import { isPathAllowed } from '@/lib/media-roots'
 
 const statAsync = promisify(stat)
-
-// Root that all stream paths must live under — matches /api/movies MOVIES_DIR.
-const MOVIES_DIR = resolve(process.env.MOVIES_DIR || 'E:\\Movies')
 
 // MIME map mirrors the extensions accepted by /api/movies
 const MIME_BY_EXT: Record<string, string> = {
@@ -32,9 +30,9 @@ export async function GET(request: NextRequest) {
     return new Response('File path required', { status: 400 })
   }
 
-  // Path traversal guard: every streamed file must live under MOVIES_DIR
+  // Path traversal guard: file must live under one of the enabled roots
   const absolute = resolve(filePath)
-  if (!absolute.toLowerCase().startsWith(MOVIES_DIR.toLowerCase())) {
+  if (!isPathAllowed(absolute)) {
     return new Response('Access denied', { status: 403 })
   }
 
